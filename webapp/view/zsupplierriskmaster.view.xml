@@ -1,0 +1,106 @@
+<mvc:View
+    controllerName="ns.zsupplierriskmaster.controller.zsupplierriskmaster"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:l="sap.ui.layout"
+	xmlns:f="sap.ui.layout.form"
+    xmlns:core="sap.ui.core"
+    xmlns:u="sap.ui.unified"
+    displayBlock="true"
+    xmlns="sap.m"
+    xmlns:tnt="sap.tnt"
+>
+	<Shell id="shell">
+		<App id="app">
+			<pages>
+				<Page id="page" title="{i18n>title}" class="sapUiSizeCompact" showHeader="false" > 
+					<content>
+                    <tnt:ToolHeader>
+                        <Button icon="sap-icon://home" type="Transparent" press="onHomeIconPress">
+                            <layoutData>
+                                <OverflowToolbarLayoutData priority="NeverOverflow" />
+                            </layoutData>
+                        </Button>
+                        <IconTabHeader
+                            id="iconTabHeader"
+                            selectedKey="invalidKey"
+                            select="onSelectTab"
+                            backgroundDesign="Transparent"
+                            mode="Inline">
+                            <layoutData>
+                                <OverflowToolbarLayoutData priority="NeverOverflow" shrinkable="true" />
+                            </layoutData>
+                            <items>
+                                <!-- <IconTabFilter text="Engagement" key="01"></IconTabFilter> -->
+                                <IconTabFilter text="Third Party Risk Data Admin " key="02" visible="true"/>
+                            </items>
+                        </IconTabHeader>
+                    </tnt:ToolHeader>
+                    <f:Form id="id_RiskForm"
+			           editable="true">
+			<f:layout>
+				<f:ResponsiveGridLayout
+					labelSpanXL="4"
+					labelSpanL="4"
+					labelSpanM="12"
+					labelSpanS="12"
+					adjustLabelSpan="false"
+					emptySpanXL="0"
+					emptySpanL="0"
+					emptySpanM="0"
+					emptySpanS="0"
+					columnsXL="2"
+					columnsL="2"
+					columnsM="2"
+					singleContainerFullSize="false" />
+			</f:layout>
+			<f:formContainers>
+				<f:FormContainer>
+					<f:formElements>
+						<f:FormElement label="{i18n>SupRisk}">
+						<f:fields>
+                            <Select id="id_SelectRisk"
+                                forceSelection="false"  change="fnSelectChange"                                                             
+                                items="{RISK>/Type}" >                                                                   
+					        <core:Item key="{RISK>Url}" text="{RISK>Name}" />
+				            </Select>
+                            <Button text="Download Template" press="onDataExport" tooltip="{i18n>download}" id="download" icon= "sap-icon://download"></Button>
+				</f:fields>
+					</f:FormElement>
+						<f:FormElement label="{i18n>uploader}">
+							<f:fields>
+                                <u:FileUploader
+                                id="id_fileUploader"
+                                class="sapUiSizeCompact"
+                                uploadStart="fnUploadStart"
+                                sendXHR="true" enabled="false"
+                                name="myFileUpload" fileType="csv"
+                                uploadUrl=""
+                                change="fnFileUploadComplete"
+                                typeMissmatch="handleTypeMissmatch"
+                                tooltip="Upload your file to the local server"/>                              
+							</f:fields>
+						</f:FormElement>				
+					</f:formElements>
+				</f:FormContainer>
+			</f:formContainers>
+		</f:Form>
+
+        	<ScrollContainer  >
+			<content>
+				<Table id="Tableid" class="sapUiSmallMarginTop" showNoData="true"
+					noDataText=" Please Upload Excel Data."></Table>
+			</content>
+		</ScrollContainer>
+                    </content>
+                    <footer>
+                    <Toolbar >
+                     <ToolbarSpacer ></ToolbarSpacer>
+                      <Button id="id_Save" type="Accept" text="Submit" visible="false" press="onSubmit"></Button>
+                      <Button id="id_Clear" type="Reject" text="Clear" visible="false"  press="onClear"></Button>
+                    </Toolbar>
+                    </footer>
+				</Page>
+			</pages>
+		</App>
+	</Shell>
+</mvc:View>

@@ -1,0 +1,41 @@
+specVersion: "2.6"
+metadata:
+  name: ns.zsupplierriskmaster
+type: application
+framework:
+  name: SAPUI5
+  version: 1.96.1
+  libraries:
+    - name: sap.ui.core
+    - name: sap.f
+    - name: sap.m
+    - name: sap.ui.comp
+    - name: sap.ui.generic.app
+    - name: sap.ui.table
+    - name: sap.ushell
+    - name: themelib_sap_bluecrystal
+    - name: themelib_sap_fiori_3
+server:
+  customMiddleware:
+    - name: fiori-tools-proxy
+      afterMiddleware: compression
+      configuration:
+        ignoreCertError: false
+        backend:
+          - path: /sap
+            url: https://bristlecone--inc--docmgmnt-integration-doc-mgmnt-suppli54cade05.cfapps.eu10.hana.ondemand.com/
+            destination: customapi
+          - path: v2/supplier-risk/
+            url: https://bristlecone--inc--docmgmnt-integration-doc-mgmnt-suppli54cade05.cfapps.eu10.hana.ondemand.com/
+            destination: customapi
+    - name: fiori-tools-appreload
+      afterMiddleware: compression
+      configuration:
+        port: 35729
+        path: webapp
+        delay: 300
+    - name: fiori-tools-preview
+      afterMiddleware: fiori-tools-appreload
+      configuration:
+        component: ns.zsupplierriskmaster
+        ui5Theme: sap_fiori_3
